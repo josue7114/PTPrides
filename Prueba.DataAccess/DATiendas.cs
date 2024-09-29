@@ -6,50 +6,59 @@ namespace Prueba.DataAccess
 {
     public class DATiendas
     {
-        public async Task<TiendasModel> Agregar(TiendasModel model) {
+        public async Task<ResultClass> Agregar(TiendasModel model) {
             try {
                 using (var ContextoBD = new P1700Context()) {
                     var entry = ContextoBD.Add(model.ConvertToTiendasBD());
                     await ContextoBD.SaveChangesAsync();
-                    return model;
+                    return new ResultClass { Model = model, StatusCode = 200, Message = string.Empty };
                 }
             }
-            catch (Exception) {
-                throw;
+            catch (DbUpdateException ex) {
+                return new ResultClass { Model = new TiendasModel(), StatusCode = 500, Message = ex.Message };
+            }
+            catch (Exception ex) {
+                return new ResultClass { Model = new TiendasModel(), StatusCode = 400, Message = ex.Message };
             }
         }
 
-        public async Task<TiendasModel> Actualizar(TiendasModel model) {
+        public async Task<ResultClass> Actualizar(TiendasModel model) {
             try {
                 using (var ContextoBD = new P1700Context()) {
                     var entry = ContextoBD.Entry(model.ConvertToTiendasBD());
                     entry.State = EntityState.Modified;
                     await ContextoBD.SaveChangesAsync();
-                    return model;
+                    return new ResultClass { Model = model, StatusCode = 200, Message = string.Empty };
                 }
             }
-            catch (Exception) {
-                throw;
+            catch (DbUpdateException ex) {
+                return new ResultClass { Model = new TiendasModel(), StatusCode = 500, Message = ex.Message };
+            }
+            catch (Exception ex) {
+                return new ResultClass { Model = new TiendasModel(), StatusCode = 400, Message = ex.Message };
             }
         }
 
-        public async Task<TiendasModel> Eliminar(int id) {
+        public async Task<ResultClass> Eliminar(int id) {
             try {
                 using (var ContextoBD = new P1700Context()) {
-                    var objEliminado = ContextoBD.Tiendas.FirstOrDefault(x => x.TiendaID == id);
-                    if (objEliminado != null) {
-                        ContextoBD.Tiendas.Remove(objEliminado);
+                    var model = ContextoBD.Tiendas.FirstOrDefault(x => x.TiendaID == id);
+                    if (model != null) {
+                        ContextoBD.Tiendas.Remove(model);
                         ContextoBD.SaveChanges();
                     }
-                    return new TiendasModel(objEliminado);
+                    return new ResultClass { Model = model, StatusCode = 200, Message = string.Empty };
                 }
             }
-            catch (Exception) {
-                throw;
+            catch (DbUpdateException ex) {
+                return new ResultClass { Model = new TiendasModel(), StatusCode = 500, Message = ex.Message };
+            }
+            catch (Exception ex) {
+                return new ResultClass { Model = new TiendasModel(), StatusCode = 400, Message = ex.Message };
             }
         }
 
-        public async Task<List<TiendasModel>> Listar() {
+        public async Task<ResultClass> Listar() {
             try {
                 using (var ContextoBD = new P1700Context()) {
                     List<TiendasModel> Lista = ContextoBD.Tiendas
@@ -57,11 +66,14 @@ namespace Prueba.DataAccess
                                                 TiendaID = s.TiendaID,
                                                 NombreTienda = s.NombreTienda,
                                             }).ToList();
-                    return Lista;
+                    return new ResultClass { Model = Lista, StatusCode = 200, Message = string.Empty };
                 }
             }
-            catch (Exception) {
-                throw;
+            catch (DbUpdateException ex) {
+                return new ResultClass { Model = new TiendasModel(), StatusCode = 500, Message = ex.Message };
+            }
+            catch (Exception ex) {
+                return new ResultClass { Model = new TiendasModel(), StatusCode = 400, Message = ex.Message };
             }
         }
     }

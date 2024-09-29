@@ -16,7 +16,7 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("Listar")]
-        public async Task<List<PerfilModel>> Listar() {
+        public async Task<ResultClass> Listar() {
             var Lista = await _IPerfil.Listar();
             return Lista;
         }

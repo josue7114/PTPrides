@@ -13,31 +13,31 @@ namespace Consumo
             ServicesRequest = new WebServiceDataAccess();
         }
 
-        public async Task<TiendasModel> Agregar(TiendasModel model, string? accessToken) {
+        public async Task<ResultClass> Agregar(TiendasModel model, string? accessToken) {
             var objetoJson = await ServicesRequest.DataRequestPOST(
                 Configuration.GetRouteAttribute(AppSettings.Tiendas_Agregar), model, accessToken);
-            var objeto = JsonConvert.DeserializeObject<TiendasModel>(objetoJson);
+            var objeto = JsonConvert.DeserializeObject<ResultClass>(objetoJson);
             return objeto;
         }
 
-        public async Task<TiendasModel> Modificar(TiendasModel model, string? accessToken) {
+        public async Task<ResultClass> Modificar(TiendasModel model, string? accessToken) {
             var objetoJson = await ServicesRequest.DataRequestPOST(
                 Configuration.GetRouteAttribute(AppSettings.Tiendas_Modificar), model, accessToken);
-            var objeto = JsonConvert.DeserializeObject<TiendasModel>(objetoJson);
+            var objeto = JsonConvert.DeserializeObject<ResultClass>(objetoJson);
             return objeto;
         }
 
-        public async Task<TiendasModel> Eliminar(string Id, string? accessToken) {
+        public async Task<ResultClass> Eliminar(string Id, string? accessToken) {
             var objetoJson = await ServicesRequest.DataRequestGET(
                 Configuration.GetRouteAttribute(AppSettings.Tiendas_Eliminar, Id), accessToken);
-            var objeto = JsonConvert.DeserializeObject<TiendasModel>(objetoJson);
+            var objeto = JsonConvert.DeserializeObject<ResultClass>(objetoJson);
             return objeto;
         }
 
-        public async Task<List<TiendasModel>> Listar(string? accessToken) {
+        public async Task<ResultClass> Listar(string? accessToken) {
             var objetoJson = await ServicesRequest.DataRequestGET(
                 Configuration.GetRouteAttribute(AppSettings.Tiendas_Listar), accessToken);
-            var objeto = JsonConvert.DeserializeObject<List<TiendasModel>>(objetoJson);
+            var objeto = JsonConvert.DeserializeObject<ResultClass>(objetoJson);
             return objeto;
         }
     }

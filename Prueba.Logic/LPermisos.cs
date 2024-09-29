@@ -12,7 +12,7 @@ namespace Prueba.Logic
             _DAPermisos = new DAPermisos();
         }
 
-        public async Task<PermisosModel> Actualizar(PermisosModel model) {
+        public async Task<ResultClass> Actualizar(PermisosModel model) {
             try {
                 var Modelo = await _DAPermisos.Actualizar(model);
                 return Modelo;
@@ -22,7 +22,7 @@ namespace Prueba.Logic
             }
         }
 
-        public async Task<PermisosModel> Agregar(PermisosModel model) {
+        public async Task<ResultClass> Agregar(PermisosModel model) {
             try {
                 var Modelo = await _DAPermisos.Agregar(model);
                 return Modelo;
@@ -32,7 +32,7 @@ namespace Prueba.Logic
             }
         }
 
-        public async Task<PermisosModel> Eliminar(int id) {
+        public async Task<ResultClass> Eliminar(int id) {
             try {
                 var Modelo = await _DAPermisos.Eliminar(id);
                 return Modelo;
@@ -42,7 +42,7 @@ namespace Prueba.Logic
             }
         }
 
-        public async Task<List<PermisosModel>> Listar() {
+        public async Task<ResultClass> Listar() {
             try {
                 var Modelo = await _DAPermisos.Listar();
                 return Modelo;

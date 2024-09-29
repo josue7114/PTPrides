@@ -13,5 +13,6 @@ namespace Prueba.Models
 
         public int StatusCode { get; set; }
         public dynamic Model { get; set; }
+        public string Message { get; set; }
     }
 }

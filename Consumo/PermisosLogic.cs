@@ -13,31 +13,31 @@ namespace Consumo
             ServicesRequest = new WebServiceDataAccess();
         }
 
-        public async Task<PermisosModel> Agregar(PermisosModel model, string? accessToken) {
+        public async Task<ResultClass> Agregar(PermisosModel model, string? accessToken) {
             var objetoJson = await ServicesRequest.DataRequestPOST(
                 Configuration.GetRouteAttribute(AppSettings.Permisos_Agregar), model, accessToken);
-            var objeto = JsonConvert.DeserializeObject<PermisosModel>(objetoJson);
+            var objeto = JsonConvert.DeserializeObject<ResultClass>(objetoJson);
             return objeto;
         }
 
-        public async Task<PermisosModel> Modificar(PermisosModel model, string? accessToken) {
+        public async Task<ResultClass> Modificar(PermisosModel model, string? accessToken) {
             var objetoJson = await ServicesRequest.DataRequestPOST(
                 Configuration.GetRouteAttribute(AppSettings.Permisos_Modificar), model, accessToken);
-            var objeto = JsonConvert.DeserializeObject<PermisosModel>(objetoJson);
+            var objeto = JsonConvert.DeserializeObject<ResultClass>(objetoJson);
             return objeto;
         }
 
-        public async Task<PermisosModel> Eliminar(string Id, string? accessToken) {
+        public async Task<ResultClass> Eliminar(string Id, string? accessToken) {
             var objetoJson = await ServicesRequest.DataRequestGET(
                 Configuration.GetRouteAttribute(AppSettings.Permisos_Eliminar, Id), accessToken);
-            var objeto = JsonConvert.DeserializeObject<PermisosModel>(objetoJson);
+            var objeto = JsonConvert.DeserializeObject<ResultClass>(objetoJson);
             return objeto;
         }
 
-        public async Task<List<PermisosModel>> Listar(string? accessToken) {
+        public async Task<ResultClass> Listar(string? accessToken) {
             var objetoJson = await ServicesRequest.DataRequestGET(
                 Configuration.GetRouteAttribute(AppSettings.Permisos_Listar), accessToken);
-            var objeto = JsonConvert.DeserializeObject<List<PermisosModel>>(objetoJson);
+            var objeto = JsonConvert.DeserializeObject<ResultClass>(objetoJson);
             return objeto;
         }
     }
