@@ -8,6 +8,7 @@ namespace Prueba.Models.Models
     public partial class ObtenerEmpleadosResult
     {
         public string NombreEmpleado { get; set; }
+        public string Cedula { get; set; }
         public string Telefono { get; set; }
         public DateTime? Fecha { get; set; }
         public string TipoEmpleado { get; set; }

@@ -1,1 +1,79 @@
-﻿vista de consulta
+﻿<div class="container my-5">
+    <div class="card p-4 shadow-sm">
+        <h3 class="text-center">Buscar Usuario por Cédula</h3>
+        <div class="d-flex justify-content-center my-3">
+            <input type="text" id="cedula" class="form-control w-50 me-2" placeholder="Ingrese cédula de usuario" required>
+            <button type="button" class="btn btn-primary" onclick="buscarEmpleado()">Buscar</button>
+        </div>
+        <div id="resultado" class="mt-4" style="display:none;">
+            <h5>Datos del Usuario</h5>
+            <table class="table table-bordered mt-2">
+                <thead>
+                    <tr>
+                        <th scope="col">Nombre Completo</th>
+                        <th scope="col">Teléfono</th>
+                        <th scope="col">Fecha de Ingreso</th>
+                        <th scope="col">Salario</th>
+                        <th scope="col">Nombre Supervisor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="nombre"></td>
+                        <td id="telefono"></td>
+                        <td id="fecha"></td>
+                        <td id="salario"></td>
+                        <td id="nombreSupervisor"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function buscarEmpleado(){
+        const cedula = $('#cedula').val();
+        if (cedula) {
+            $.ajax({
+                url: '@Url.Action("Buscar", "Empleados")',
+                method: 'POST',
+                data: { cedula: cedula },
+                success: function (response) {
+                    if (response.success) {
+                        $('#nombre').text(response.data.nombreEmpleado);
+                        $('#telefono').text(response.data.telefono);
+                        $('#fecha').text(response.data.fecha);
+                        $('#salario').text(response.data.salario);
+                        $('#nombreSupervisor').text(response.data.nombreSupervisor);
+                        $('#resultado').show();
+                    } else {
+                        swalWithBootstrapButtons2.fire({
+                            title: "Error",
+                            text: response.message,
+                            icon: "error",
+                            confirmButtonText: 'Cerrar',
+                        });
+                        $('#resultado').hide();
+                    }
+                },
+                error: function () {
+                    swalWithBootstrapButtons2.fire({
+                        title: "Error",
+                        text: response.message,
+                        icon: "error",
+                        confirmButtonText: 'Cerrar',
+                    });
+                }
+            });
+        } else {
+            swalWithBootstrapButtons2.fire({
+                title: "Error",
+                text: "Ingrese un número de cédula",
+                icon: "info",
+                confirmButtonText: 'Cerrar',
+            });
+        }
+
+    }
+</script>

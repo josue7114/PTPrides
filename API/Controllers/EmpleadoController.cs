@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Prueba.Interface;
 using Prueba.Models;
+using Prueba.Models.Models;
 
 namespace API.Controllers
 {
@@ -40,6 +41,13 @@ namespace API.Controllers
         [Route("Listar")]
         public async Task<ResultClass<EmpleadosModel>> Listar() {
             var Lista = await _IEmpleados.Listar();
+            return Lista;
+        }
+
+        [HttpGet]
+        [Route("Buscar")]
+        public async Task<ResultClass<ObtenerEmpleadosResult>> Buscar(string Cedula) {
+            var Lista = await _IEmpleados.Buscar(Cedula);
             return Lista;
         }
     }

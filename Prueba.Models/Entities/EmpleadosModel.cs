@@ -24,9 +24,9 @@ namespace Prueba.Models
         public int? UsuarioID { get; set; }
         public int? PerfilID { get; set; }
         public int? SupervisorID { get; set; }
-        public string Telefono { get; set; }
+        public string? Telefono { get; set; }
         public DateTime? Fecha { get; set; }
-        public string TipoEmpleado { get; set; }
+        public string? TipoEmpleado { get; set; }
         public double? Salario { get; set; }
 
         public Empleados ConvertToEmpleadosBD() {

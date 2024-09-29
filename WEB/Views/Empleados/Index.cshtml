@@ -26,19 +26,32 @@
                         <td class="text-center">
                             <div class="btn-group" role="group">
                                 <button onclick="mostrarModal(this)" data-id="@Item.EmpleadoID" type="button" class="btn btn-warning m-1">Editar</button>
-                                <button onclick="eliminar()" data-id="@Item.EmpleadoID" type="button" class="btn btn-danger m-1">Eliminar</button>
+                                <button onclick="eliminar(this)" data-id="@Item.EmpleadoID" type="button" class="btn btn-danger m-1">Eliminar</button>
                             </div>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-
     </div>
 </div>
 <div id="modalForm"></div>
 <script>
     function mostrarModal(btn) {
         mostrarInfoModal('@Url.Action("ObtenerContenidoModal", "Empleados")', btn, 'modalForm', 'modalEmpleados');
+    }
+
+    function eliminar(btn) {
+        let id = $(btn).data('id');
+        const dataDelete = {
+            urlPost: '@Url.Action("Eliminar", "Empleados")',
+            id: id,
+            funcion: redirectResponse
+        };
+        EliminarRegistro(dataDelete);
+    }
+
+    function redirectResponse(){
+        window.location.href = '@Url.Action("Index", "Empleados")';
     }
 </script>

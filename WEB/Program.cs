@@ -10,6 +10,7 @@ AppSettings.Empleados_Agregar = builder.Configuration.GetSection("AppSettings:Em
 AppSettings.Empleados_Modificar = builder.Configuration.GetSection("AppSettings:Empleados_Modificar").Value;
 AppSettings.Empleados_Eliminar = builder.Configuration.GetSection("AppSettings:Empleados_Eliminar").Value;
 AppSettings.Empleados_Listar = builder.Configuration.GetSection("AppSettings:Empleados_Listar").Value;
+AppSettings.Empleados_Buscar = builder.Configuration.GetSection("AppSettings:Empleados_Buscar").Value;
 AppSettings.Permisos_Agregar = builder.Configuration.GetSection("AppSettings:Permisos_Agregar").Value;
 AppSettings.Permisos_Modificar = builder.Configuration.GetSection("AppSettings:Permisos_Modificar").Value;
 AppSettings.Permisos_Eliminar = builder.Configuration.GetSection("AppSettings:Permisos_Eliminar").Value;

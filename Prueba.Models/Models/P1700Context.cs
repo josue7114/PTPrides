@@ -36,8 +36,6 @@ namespace Prueba.Models.Models
                 entity.HasIndex(e => new { e.EmpleadoID, e.Fecha }, "UQ__Asignaci__7EBB2E54D0D00F3A")
                     .IsUnique();
 
-                entity.Property(e => e.AsignacionID).ValueGeneratedNever();
-
                 entity.Property(e => e.Fecha).HasColumnType("date");
 
                 entity.HasOne(d => d.Empleado)
@@ -56,10 +54,9 @@ namespace Prueba.Models.Models
                 entity.HasKey(e => e.EmpleadoID)
                     .HasName("PK__Empleado__958BE6F0473252EC");
 
-                entity.HasIndex(e => e.UsuarioID, "UQ__Empleado__2B3DE7993E3637EA")
-                    .IsUnique();
-
-                entity.Property(e => e.EmpleadoID).ValueGeneratedNever();
+                entity.HasIndex(e => e.UsuarioID, "IX_Empleados_UsuarioID")
+                    .IsUnique()
+                    .HasFilter("([UsuarioID] IS NOT NULL)");
 
                 entity.Property(e => e.Fecha).HasColumnType("date");
 
@@ -96,8 +93,6 @@ namespace Prueba.Models.Models
 
             modelBuilder.Entity<Perfil>(entity =>
             {
-                entity.Property(e => e.PerfilID).ValueGeneratedNever();
-
                 entity.Property(e => e.NombrePerfil)
                     .IsRequired()
                     .HasMaxLength(50)
@@ -108,8 +103,6 @@ namespace Prueba.Models.Models
             {
                 entity.HasKey(e => e.PermisoID)
                     .HasName("PK__Permisos__96E0C7036B0BADE9");
-
-                entity.Property(e => e.PermisoID).ValueGeneratedNever();
 
                 entity.Property(e => e.NombrePermiso)
                     .IsRequired()
@@ -127,8 +120,6 @@ namespace Prueba.Models.Models
                 entity.HasKey(e => e.TiendaID)
                     .HasName("PK__Tiendas__FC84C42C81AB0787");
 
-                entity.Property(e => e.TiendaID).ValueGeneratedNever();
-
                 entity.Property(e => e.NombreTienda)
                     .IsRequired()
                     .HasMaxLength(100)
@@ -143,7 +134,9 @@ namespace Prueba.Models.Models
                 entity.HasIndex(e => e.Correo, "UQ__Usuarios__60695A19599A045E")
                     .IsUnique();
 
-                entity.Property(e => e.UsuarioID).ValueGeneratedNever();
+                entity.Property(e => e.Cedula)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Contrasena)
                     .IsRequired()

@@ -84,5 +84,20 @@ namespace Prueba.DataAccess
                 return new ResultClass<EmpleadosModel> { Model = new EmpleadosModel(), StatusCode = 400, Message = ex.Message };
             }
         }
+
+        public async Task<ResultClass<ObtenerEmpleadosResult>> Buscar(string Cedula) {
+            try {
+                using (var ContextoBD = new P1700Context()) {
+                    var model = await ContextoBD.Procedures.ObtenerEmpleadosAsync(Cedula);
+                    return new ResultClass<ObtenerEmpleadosResult> { ListModel = model, StatusCode = 200, Message = string.Empty };
+                }
+            }
+            catch (DbUpdateException ex) {
+                return new ResultClass<ObtenerEmpleadosResult> { ListModel = new List<ObtenerEmpleadosResult?>(), StatusCode = 500, Message = ex.Message };
+            }
+            catch (Exception ex) {
+                return new ResultClass<ObtenerEmpleadosResult> { ListModel = new List<ObtenerEmpleadosResult?>(), StatusCode = 400, Message = ex.Message };
+            }
+        }
     }
 }

@@ -25,12 +25,8 @@ namespace WEB.Controllers
         }
 
         public async Task<ActionResult> ObtenerContenidoModal(int Parametro) {
-            //var Tiendas = await LTiendas.Listar("token");
             var Perfiles = await LPerfil.Listar("token");
             var Supervisores = await LEmpleados.Listar("token");
-            //if (Tiendas.StatusCode == 200) {
-            //    ViewBag.Tiendas = Tiendas.ListModel;
-            //}
             if (Perfiles.StatusCode == 200) {
                 ViewBag.Perfil = Perfiles.ListModel;
             }
@@ -48,7 +44,47 @@ namespace WEB.Controllers
             return PartialView("_modal", Modelo);
         }
 
-        public async Task<ActionResult> Consulta() {
+        public async Task<ActionResult> Guardar(EmpleadosModel Modelo) {
+            var Result = new ResultClass<EmpleadosModel>();
+            if (Modelo.SupervisorID == 0) {
+                Modelo.SupervisorID = null;
+            }
+            if (Modelo.EmpleadoID != 0) {
+                Result = await LEmpleados.Modificar(Modelo, "token");
+            }
+            else {
+                Modelo.Fecha = DateTime.Today;
+                Result = await LEmpleados.Agregar(Modelo, "token");
+            }
+            if (Result.StatusCode == 200) {
+                return Json(new { success = true, message = "Registro guardado correctamente" });
+            }
+            else {
+                return Json(new { success = false, message = Result.Message });
+            }
+        }
+
+        public async Task<ActionResult> Eliminar(int id) {
+            var Result = await LEmpleados.Eliminar(id, "token");
+            if (Result.StatusCode == 200) {
+                return Json(new { success = true, message = "Registro eliminado correctamente" });
+            }
+            else {
+                return Json(new { success = false, message = Result.Message });
+            }
+        }
+
+        public async Task<ActionResult> Buscar(string Cedula) {
+            var Result = await LEmpleados.Buscar(Cedula, "token");
+            if (Result.StatusCode == 200) {
+                return Json(new { success = true, data = Result.ListModel.FirstOrDefault(), message = string.Empty });
+            }
+            else {
+                return Json(new { success = false, message = Result.Message });
+            }
+        }
+
+        public ActionResult Consulta() {
             return View();
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Prueba.Models;
+using Prueba.Models.Models;
 
 namespace Prueba.Interface
 {
@@ -11,5 +12,7 @@ namespace Prueba.Interface
         Task<ResultClass<EmpleadosModel>> Eliminar(int id);
 
         Task<ResultClass<EmpleadosModel>> Listar();
+
+        Task<ResultClass<ObtenerEmpleadosResult>> Buscar(string Cedula);
     }
 }
