@@ -1,0 +1,44 @@
+﻿@model Prueba.Models.UsuariosModel
+@{
+    var ListaTiendas = ViewBag.Tiendas;
+    var ListaPerfiles = ViewBag.Perfil;
+}
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalLabel">Registro de usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formRegistro">
+                    <div class="mb-3">
+                        <label for="cedula" class="form-label">Cédula</label>
+                        <input type="text" class="form-control" id="cedula" placeholder="Ingresa tu cédula" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre Completo</label>
+                        <input type="text" class="form-control" id="nombre" placeholder="Ingresa tu nombre completo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="registroPassword" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="registroPassword" placeholder="Crea una contraseña" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="perfil" class="form-label">Perfil</label>
+                        <select class="form-select" id="perfil" required asp-items="@(new SelectList(ListaPerfiles, "PerfilID", "NombrePerfil"))">
+                            <option selected disabled>Seleccione una opción</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tienda" class="form-label">Tienda</label>
+                        <select class="form-select" id="tienda" required asp-items="@(new SelectList(ListaTiendas, "TiendaID", "NombreTienda"))">
+                            <option selected disabled>Seleccione una opción</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Registrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

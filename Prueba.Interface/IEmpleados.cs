@@ -4,12 +4,12 @@ namespace Prueba.Interface
 {
     public interface IEmpleados
     {
-        Task<ResultClass> Agregar(EmpleadosModel model);
+        Task<ResultClass<EmpleadosModel>> Agregar(EmpleadosModel model);
 
-        Task<ResultClass> Actualizar(EmpleadosModel model);
+        Task<ResultClass<EmpleadosModel>> Actualizar(EmpleadosModel model);
 
-        Task<ResultClass> Eliminar(int id);
+        Task<ResultClass<EmpleadosModel>> Eliminar(int id);
 
-        Task<ResultClass> Listar();
+        Task<ResultClass<EmpleadosModel>> Listar();
     }
 }

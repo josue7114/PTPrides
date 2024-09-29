@@ -6,41 +6,41 @@ namespace Prueba.DataAccess
 {
     public class DAEmpleados
     {
-        public async Task<ResultClass> Agregar(EmpleadosModel model) {
+        public async Task<ResultClass<EmpleadosModel>> Agregar(EmpleadosModel model) {
             try {
                 using (var ContextoBD = new P1700Context()) {
                     var entry = ContextoBD.Add(model.ConvertToEmpleadosBD());
                     await ContextoBD.SaveChangesAsync();
 
-                    return new ResultClass { Model = model, StatusCode = 200, Message = string.Empty };
+                    return new ResultClass<EmpleadosModel> { Model = model, StatusCode = 200, Message = string.Empty };
                 }
             }
             catch (DbUpdateException ex) {
-                return new ResultClass { Model = new EmpleadosModel(), StatusCode = 500, Message = ex.Message };
+                return new ResultClass<EmpleadosModel> { Model = new EmpleadosModel(), StatusCode = 500, Message = ex.Message };
             }
             catch (Exception ex) {
-                return new ResultClass { Model = new EmpleadosModel(), StatusCode = 400, Message = ex.Message };
+                return new ResultClass<EmpleadosModel> { Model = new EmpleadosModel(), StatusCode = 400, Message = ex.Message };
             }
         }
 
-        public async Task<ResultClass> Actualizar(EmpleadosModel model) {
+        public async Task<ResultClass<EmpleadosModel>> Actualizar(EmpleadosModel model) {
             try {
                 using (var ContextoBD = new P1700Context()) {
                     var entry = ContextoBD.Entry(model.ConvertToEmpleadosBD());
                     entry.State = EntityState.Modified;
                     await ContextoBD.SaveChangesAsync();
-                    return new ResultClass { Model = model, StatusCode = 200, Message = string.Empty };
+                    return new ResultClass<EmpleadosModel> { Model = model, StatusCode = 200, Message = string.Empty };
                 }
             }
             catch (DbUpdateException ex) {
-                return new ResultClass { Model = new EmpleadosModel(), StatusCode = 500, Message = ex.Message };
+                return new ResultClass<EmpleadosModel> { Model = new EmpleadosModel(), StatusCode = 500, Message = ex.Message };
             }
             catch (Exception ex) {
-                return new ResultClass { Model = new EmpleadosModel(), StatusCode = 400, Message = ex.Message };
+                return new ResultClass<EmpleadosModel> { Model = new EmpleadosModel(), StatusCode = 400, Message = ex.Message };
             }
         }
 
-        public async Task<ResultClass> Eliminar(int id) {
+        public async Task<ResultClass<EmpleadosModel>> Eliminar(int id) {
             try {
                 using (var ContextoBD = new P1700Context()) {
                     var model = ContextoBD.Empleados.FirstOrDefault(x => x.EmpleadoID == id);
@@ -48,18 +48,18 @@ namespace Prueba.DataAccess
                         ContextoBD.Empleados.Remove(model);
                         ContextoBD.SaveChanges();
                     }
-                    return new ResultClass { Model = model, StatusCode = 200, Message = string.Empty };
+                    return new ResultClass<EmpleadosModel> { Model = new EmpleadosModel(model), StatusCode = 200, Message = string.Empty };
                 }
             }
             catch (DbUpdateException ex) {
-                return new ResultClass { Model = new EmpleadosModel(), StatusCode = 500, Message = ex.Message };
+                return new ResultClass<EmpleadosModel> { Model = new EmpleadosModel(), StatusCode = 500, Message = ex.Message };
             }
             catch (Exception ex) {
-                return new ResultClass { Model = new EmpleadosModel(), StatusCode = 400, Message = ex.Message };
+                return new ResultClass<EmpleadosModel> { Model = new EmpleadosModel(), StatusCode = 400, Message = ex.Message };
             }
         }
 
-        public async Task<ResultClass> Listar() {
+        public async Task<ResultClass<EmpleadosModel>> Listar() {
             try {
                 using (var ContextoBD = new P1700Context()) {
                     List<EmpleadosModel> Lista = ContextoBD.Empleados
@@ -74,14 +74,14 @@ namespace Prueba.DataAccess
                                                 TipoEmpleado = s.TipoEmpleado,
                                                 Salario = Convert.ToDouble(s.Salario),
                                             }).ToList();
-                    return new ResultClass { Model = Lista, StatusCode = 200, Message = string.Empty };
+                    return new ResultClass<EmpleadosModel> { ListModel = Lista, StatusCode = 200, Message = string.Empty };
                 }
             }
             catch (DbUpdateException ex) {
-                return new ResultClass { Model = new EmpleadosModel(), StatusCode = 500, Message = ex.Message };
+                return new ResultClass<EmpleadosModel> { Model = new EmpleadosModel(), StatusCode = 500, Message = ex.Message };
             }
             catch (Exception ex) {
-                return new ResultClass { Model = new EmpleadosModel(), StatusCode = 400, Message = ex.Message };
+                return new ResultClass<EmpleadosModel> { Model = new EmpleadosModel(), StatusCode = 400, Message = ex.Message };
             }
         }
     }

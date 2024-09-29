@@ -12,7 +12,7 @@ namespace Prueba.Logic
             _DAEmpleados = new DAEmpleados();
         }
 
-        public async Task<ResultClass> Actualizar(EmpleadosModel model) {
+        public async Task<ResultClass<EmpleadosModel>> Actualizar(EmpleadosModel model) {
             try {
                 var Modelo = await _DAEmpleados.Actualizar(model);
                 return Modelo;
@@ -22,7 +22,7 @@ namespace Prueba.Logic
             }
         }
 
-        public async Task<ResultClass> Agregar(EmpleadosModel model) {
+        public async Task<ResultClass<EmpleadosModel>> Agregar(EmpleadosModel model) {
             try {
                 var Modelo = await _DAEmpleados.Agregar(model);
                 return Modelo;
@@ -32,7 +32,7 @@ namespace Prueba.Logic
             }
         }
 
-        public async Task<ResultClass> Eliminar(int id) {
+        public async Task<ResultClass<EmpleadosModel>> Eliminar(int id) {
             try {
                 var Modelo = await _DAEmpleados.Eliminar(id);
                 return Modelo;
@@ -42,7 +42,7 @@ namespace Prueba.Logic
             }
         }
 
-        public async Task<ResultClass> Listar() {
+        public async Task<ResultClass<EmpleadosModel>> Listar() {
             try {
                 var Modelo = await _DAEmpleados.Listar();
                 return Modelo;

@@ -13,10 +13,10 @@ namespace Consumo
             ServicesRequest = new WebServiceDataAccess();
         }
 
-        public async Task<ResultClass> Listar(string? accessToken) {
+        public async Task<ResultClass<PerfilModel>> Listar(string? accessToken) {
             var objetoJson = await ServicesRequest.DataRequestGET(
                 Configuration.GetRouteAttribute(AppSettings.Perfiles_Listar), accessToken);
-            var objeto = JsonConvert.DeserializeObject<ResultClass>(objetoJson);
+            var objeto = JsonConvert.DeserializeObject<ResultClass<PerfilModel>>(objetoJson);
             return objeto;
         }
     }

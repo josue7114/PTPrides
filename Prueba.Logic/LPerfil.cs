@@ -12,7 +12,7 @@ namespace Prueba.Logic
             _DAPerfil = new DAPerfil();
         }
 
-        public async Task<ResultClass> Listar() {
+        public async Task<ResultClass<PerfilModel>> Listar() {
             try {
                 var Modelo = await _DAPerfil.Listar();
                 return Modelo;

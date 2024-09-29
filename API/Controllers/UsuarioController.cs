@@ -17,28 +17,28 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("Agregar")]
-        public async Task<ResultClass> Agregar(UsuariosModel modelo) {
+        public async Task<ResultClass<UsuariosModel>> Agregar(UsuariosModel modelo) {
             var Result = await _IUsuarios.Agregar(modelo);
             return Result;
         }
 
         [HttpPost]
         [Route("Actualizar")]
-        public async Task<ResultClass> Actualizar(UsuariosModel modelo) {
+        public async Task<ResultClass<UsuariosModel>> Actualizar(UsuariosModel modelo) {
             var Result = await _IUsuarios.Actualizar(modelo);
             return Result;
         }
 
         [HttpGet]
         [Route("Eliminar")]
-        public async Task<ResultClass> Eliminar(int Id) {
+        public async Task<ResultClass<UsuariosModel>> Eliminar(int Id) {
             var Result = await _IUsuarios.Eliminar(Id);
             return Result;
         }
 
         [HttpGet]
         [Route("Listar")]
-        public async Task<ResultClass> Listar() {
+        public async Task<ResultClass<UsuariosModel>> Listar() {
             var Lista = await _IUsuarios.Listar();
             return Lista;
         }
