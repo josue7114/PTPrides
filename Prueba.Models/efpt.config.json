@@ -1,0 +1,74 @@
+﻿{
+  "CodeGenerationMode": 2,
+  "ContextClassName": "P1700Context",
+  "ContextNamespace": null,
+  "FilterSchemas": false,
+  "IncludeConnectionString": false,
+  "ModelNamespace": null,
+  "OutputContextPath": null,
+  "OutputPath": "Models",
+  "PreserveCasingWithRegex": true,
+  "ProjectRootNamespace": "Prueba.Models",
+  "Schemas": null,
+  "SelectedHandlebarsLanguage": 2,
+  "SelectedToBeGenerated": 0,
+  "T4TemplatePath": null,
+  "Tables": [
+    {
+      "Name": "[dbo].[AsignacionEmpleados]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[Empleados]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[Perfil]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[Permisos]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[Tiendas]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[Usuarios]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[ObtenerCantidadEmpleadosSupervisados]",
+      "ObjectType": 1
+    },
+    {
+      "Name": "[dbo].[ObtenerEmpleados]",
+      "ObjectType": 1
+    }
+  ],
+  "UiHint": null,
+  "UncountableWords": null,
+  "UseAsyncStoredProcedureCalls": true,
+  "UseBoolPropertiesWithoutDefaultSql": false,
+  "UseDatabaseNames": true,
+  "UseDateOnlyTimeOnly": false,
+  "UseDbContextSplitting": false,
+  "UseDecimalDataAnnotationForSprocResult": true,
+  "UseFluentApiOnly": true,
+  "UseHandleBars": false,
+  "UseHierarchyId": false,
+  "UseInflector": false,
+  "UseLegacyPluralizer": false,
+  "UseManyToManyEntity": false,
+  "UseNoDefaultConstructor": false,
+  "UseNoNavigations": false,
+  "UseNoObjectFilter": false,
+  "UseNodaTime": false,
+  "UseNullableReferences": false,
+  "UsePrefixNavigationNaming": false,
+  "UseSchemaFolders": false,
+  "UseSchemaNamespaces": false,
+  "UseSpatial": false,
+  "UseT4": false
+}

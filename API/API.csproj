@@ -11,7 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\Prueba.Interface\Prueba.Interface.csproj" />
+    <ProjectReference Include="..\Prueba.Logic\Prueba.Logic.csproj" />
+    <ProjectReference Include="..\Prueba.Models\Prueba.Models.csproj" />
   </ItemGroup>
 
 </Project>
