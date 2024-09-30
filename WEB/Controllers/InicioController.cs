@@ -60,46 +60,37 @@ namespace WEB.Controllers
         [HttpGet]
         public async Task<IActionResult> CerrarSesion() {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            HttpContext.Session.Clear();
             return RedirectToAction("Index", "Inicio");
         }
 
         [HttpPost]
         public async Task<ActionResult> RegistrarUsuario(UsuariosModel Modelo) {
-            var Sesion = Utilidades.ValidarSession(HttpContext);
-            if (Sesion.esValida) {
-                Modelo.Contrasena = Utilidades.GetSHA256(Modelo.Contrasena);
-                var Result = await LUsuarios.Agregar(Modelo, Sesion.accessToken);
-                if (Result.StatusCode == 200) {
-                    var Result2 = await LEmpleados.Agregar(new EmpleadosModel { Fecha = DateTime.Today, Nombre = Modelo.Nombre, PerfilID = Modelo.PerfilID, Salario = 0 }, Sesion.accessToken);
-                    if (Result2.StatusCode == 200) {
-                        return Json(new { success = true });
-                    }
-                    else {
-                        return Json(new { success = false, message = Result2.Message });
-                    }
+            Modelo.Contrasena = Utilidades.GetSHA256(Modelo.Contrasena);
+            var Result = await LUsuarios.Agregar(Modelo);
+            if (Result.StatusCode == 200) {
+                var Result2 = await LEmpleados.Agregar(new EmpleadosModel { Fecha = DateTime.Today, Nombre = Modelo.Nombre, PerfilID = Modelo.PerfilID, Salario = 0 });
+                if (Result2.StatusCode == 200) {
+                    return Json(new { success = true });
                 }
                 else {
-                    return Json(new { success = false, message = Result.Message });
+                    return Json(new { success = false, message = Result2.Message });
                 }
             }
-            return RedirectToAction("Index", "Inicio");
+            else {
+                return Json(new { success = false, message = Result.Message });
+            }
         }
 
         public async Task<ActionResult> ObtenerContenidoModal(int Parametro) {
-            var Sesion = Utilidades.ValidarSession(HttpContext);
-            if (Sesion.esValida) {
-                var Tiendas = await LTiendas.Listar(Sesion.accessToken);
-                var Perfiles = await LPerfil.Listar(Sesion.accessToken);
-                if (Tiendas.StatusCode == 200) {
-                    ViewBag.Tiendas = Tiendas.ListModel;
-                }
-                if (Perfiles.StatusCode == 200) {
-                    ViewBag.Perfil = Perfiles.ListModel;
-                }
-                return PartialView("_modal", new UsuariosModel());
+            var Tiendas = await LTiendas.Listar();
+            var Perfiles = await LPerfil.Listar();
+            if (Tiendas.StatusCode == 200) {
+                ViewBag.Tiendas = Tiendas.ListModel;
             }
-            return RedirectToAction("Index", "Inicio");
+            if (Perfiles.StatusCode == 200) {
+                ViewBag.Perfil = Perfiles.ListModel;
+            }
+            return PartialView("_modal", new UsuariosModel());
         }
     }
 }

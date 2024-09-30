@@ -13,9 +13,9 @@ namespace Consumo
             ServicesRequest = new WebServiceDataAccess();
         }
 
-        public async Task<ResultClass<UsuariosModel>> Agregar(UsuariosModel model, string? accessToken) {
+        public async Task<ResultClass<UsuariosModel>> Agregar(UsuariosModel model) {
             var objetoJson = await ServicesRequest.DataRequestPOST(
-                Configuration.GetRouteAttribute(AppSettings.Usuarios_Agregar), model, accessToken);
+                Configuration.GetRouteAttribute(AppSettings.Usuarios_Agregar), model);
             var objeto = JsonConvert.DeserializeObject<ResultClass<UsuariosModel>>(objetoJson);
             return objeto;
         }

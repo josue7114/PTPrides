@@ -32,13 +32,13 @@ namespace WEB.Controllers
         public async Task<ActionResult> ObtenerContenidoModal(int Parametro) {
             var Sesion = Utilidades.ValidarSession(HttpContext);
             if (Sesion.esValida) {
-                var Perfiles = await LPerfil.Listar(Sesion.accessToken);
+                var Perfiles = await LPerfil.Listar();
                 var Supervisores = await LEmpleados.Listar(Sesion.accessToken);
                 if (Perfiles.StatusCode == 200) {
                     ViewBag.Perfil = Perfiles.ListModel;
                 }
                 if (Supervisores.StatusCode == 200) {
-                    ViewBag.Supervisores = Supervisores.ListModel.Where(m => m.SupervisorID == 0);
+                    ViewBag.Supervisores = Supervisores.ListModel.Where(m => m.SupervisorID == null);
                 }
                 var Modelo = new EmpleadosModel();
                 if (Parametro != 0) {
@@ -65,7 +65,7 @@ namespace WEB.Controllers
                 }
                 else {
                     Modelo.Fecha = DateTime.Today;
-                    Result = await LEmpleados.Agregar(Modelo, Sesion.accessToken);
+                    Result = await LEmpleados.Agregar(Modelo);
                 }
                 if (Result.StatusCode == 200) {
                     return Json(new { success = true, message = "Registro guardado correctamente" });
@@ -96,7 +96,12 @@ namespace WEB.Controllers
             if (Sesion.esValida) {
                 var Result = await LEmpleados.Buscar(Cedula, Sesion.accessToken);
                 if (Result.StatusCode == 200) {
-                    return Json(new { success = true, data = Result.ListModel.FirstOrDefault(), message = string.Empty });
+                    if (Result.ListModel.Count != 0) {
+                        return Json(new { success = true, data = Result.ListModel.FirstOrDefault(), message = string.Empty });
+                    }
+                    else {
+                        return Json(new { success = false, message = "Usuario no registrado como empleado" });
+                    }
                 }
                 else {
                     return Json(new { success = false, message = Result.Message });

@@ -13,9 +13,9 @@ namespace Consumo
             ServicesRequest = new WebServiceDataAccess();
         }
 
-        public async Task<ResultClass<PerfilModel>> Listar(string? accessToken) {
+        public async Task<ResultClass<PerfilModel>> Listar() {
             var objetoJson = await ServicesRequest.DataRequestGET(
-                Configuration.GetRouteAttribute(AppSettings.Perfiles_Listar), accessToken);
+                Configuration.GetRouteAttribute(AppSettings.Perfiles_Listar));
             var objeto = JsonConvert.DeserializeObject<ResultClass<PerfilModel>>(objetoJson);
             return objeto;
         }
