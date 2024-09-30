@@ -1,0 +1,70 @@
+﻿@model Prueba.Models.EmpleadosModel
+@{
+    var ListaPerfiles = ViewBag.Perfil;
+    var ListaSupervisores = ViewBag.Supervisores;
+}
+<div class="modal fade" id="modalEmpleados" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Información del empleado</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formularioGuardar" action="@Url.Action("Guardar","Empleados")" method="post" enctype="multipart/form-data" class="user">
+                    <input type="text" asp-for="EmpleadoID" class="form-control rounded-3 border" name="EmpleadoID" id="EmpleadoID" hidden />
+                    <div class="row">
+                        <div class="col-sm-6 mb-3">
+                            <label for="Nombre" class="form-label">Nombre:</label>
+                            <input type="text" asp-for="Nombre" class="form-control rounded-3 border" name="Nombre" id="Nombre" required />
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <label for="Telefono" class="form-label">Teléfono:</label>
+                            <input type="text" asp-for="Telefono" class="form-control rounded-3 border" name="Telefono" id="Telefono" required />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 mb-3">
+                            <label for="PerfilID" class="form-label">Perfil:</label>
+                            <select asp-for="PerfilID" id="PerfilID" name="PerfilID" class="form-select" asp-items="@(new SelectList(ListaPerfiles, "PerfilID", "NombrePerfil"))" required>
+                                <option value="0">Seleccione una opción</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <label for="Salario" class="form-label">Salario:</label>
+                            <input type="number" asp-for="Salario" class="form-control rounded-3 border" name="Salario" id="Salario" min="0" step="1" required />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 mb-3">
+                            <label for="SupervisorID" class="form-label">Supervisor:</label>
+                            <select asp-for="SupervisorID" id="SupervisorID" name="SupervisorID" class="form-select" asp-items="@(new SelectList(ListaSupervisores, "EmpleadoID", "Nombre"))">
+                                <option value="0">Seleccione una opción</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary w-100">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#formularioGuardar').on('submit', function (event) {
+        if (validateForm('formularioGuardar')) {
+            event.preventDefault();
+            const dataAdd = {
+                urlPost: '@Url.Action("Guardar", "Empleados")',
+                formData: $('#formularioGuardar').serialize(),
+                funcion: redirectResponse
+            };
+            GuardarRegistro(dataAdd);
+        } else {
+            return;
+        }
+    });
+</script>

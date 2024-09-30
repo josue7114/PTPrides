@@ -14,6 +14,6 @@ namespace Prueba.Models.Models
     public partial interface IP1700ContextProcedures
     {
         Task<List<ObtenerCantidadEmpleadosSupervisadosResult>> ObtenerCantidadEmpleadosSupervisadosAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<ObtenerEmpleadosResult>> ObtenerEmpleadosAsync(int? EmpleadoID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<ObtenerEmpleadosResult>> ObtenerEmpleadosAsync(string Cedula, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
     }
 }

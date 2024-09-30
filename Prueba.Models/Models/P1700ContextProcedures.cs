@@ -69,7 +69,7 @@ namespace Prueba.Models.Models
             return _;
         }
 
-        public virtual async Task<List<ObtenerEmpleadosResult>> ObtenerEmpleadosAsync(int? EmpleadoID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<List<ObtenerEmpleadosResult>> ObtenerEmpleadosAsync(string Cedula, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -82,13 +82,14 @@ namespace Prueba.Models.Models
             {
                 new SqlParameter
                 {
-                    ParameterName = "EmpleadoID",
-                    Value = EmpleadoID ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.Int,
+                    ParameterName = "Cedula",
+                    Size = 50,
+                    Value = Cedula ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
                 },
                 parameterreturnValue,
             };
-            var _ = await _context.SqlQueryAsync<ObtenerEmpleadosResult>("EXEC @returnValue = [dbo].[ObtenerEmpleados] @EmpleadoID = @EmpleadoID", sqlParameters, cancellationToken);
+            var _ = await _context.SqlQueryAsync<ObtenerEmpleadosResult>("EXEC @returnValue = [dbo].[ObtenerEmpleados] @Cedula = @Cedula", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 

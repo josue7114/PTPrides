@@ -6,40 +6,40 @@ namespace Prueba.DataAccess
 {
     public class DAUsuarios
     {
-        public async Task<ResultClass> Agregar(UsuariosModel model) {
+        public async Task<ResultClass<UsuariosModel>> Agregar(UsuariosModel model) {
             try {
                 using (var ContextoBD = new P1700Context()) {
                     var entry = ContextoBD.Add(model.ConvertToUsuariosBD());
                     await ContextoBD.SaveChangesAsync();
-                    return new ResultClass { Model = model, StatusCode = 200, Message = string.Empty };
+                    return new ResultClass<UsuariosModel> { Model = model, StatusCode = 200, Message = string.Empty };
                 }
             }
             catch (DbUpdateException ex) {
-                return new ResultClass { Model = new UsuariosModel(), StatusCode = 500, Message = ex.Message };
+                return new ResultClass<UsuariosModel> { Model = new UsuariosModel(), StatusCode = 500, Message = ex.Message };
             }
             catch (Exception ex) {
-                return new ResultClass { Model = new UsuariosModel(), StatusCode = 400, Message = ex.Message };
+                return new ResultClass<UsuariosModel> { Model = new UsuariosModel(), StatusCode = 400, Message = ex.Message };
             }
         }
 
-        public async Task<ResultClass> Actualizar(UsuariosModel model) {
+        public async Task<ResultClass<UsuariosModel>> Actualizar(UsuariosModel model) {
             try {
                 using (var ContextoBD = new P1700Context()) {
                     var entry = ContextoBD.Entry(model.ConvertToUsuariosBD());
                     entry.State = EntityState.Modified;
                     await ContextoBD.SaveChangesAsync();
-                    return new ResultClass { Model = model, StatusCode = 200, Message = string.Empty };
+                    return new ResultClass<UsuariosModel> { Model = model, StatusCode = 200, Message = string.Empty };
                 }
             }
             catch (DbUpdateException ex) {
-                return new ResultClass { Model = new UsuariosModel(), StatusCode = 500, Message = ex.Message };
+                return new ResultClass<UsuariosModel> { Model = new UsuariosModel(), StatusCode = 500, Message = ex.Message };
             }
             catch (Exception ex) {
-                return new ResultClass { Model = new UsuariosModel(), StatusCode = 400, Message = ex.Message };
+                return new ResultClass<UsuariosModel> { Model = new UsuariosModel(), StatusCode = 400, Message = ex.Message };
             }
         }
 
-        public async Task<ResultClass> Eliminar(int id) {
+        public async Task<ResultClass<UsuariosModel>> Eliminar(int id) {
             try {
                 using (var ContextoBD = new P1700Context()) {
                     var model = ContextoBD.Usuarios.FirstOrDefault(x => x.UsuarioID == id);
@@ -47,18 +47,18 @@ namespace Prueba.DataAccess
                         ContextoBD.Usuarios.Remove(model);
                         ContextoBD.SaveChanges();
                     }
-                    return new ResultClass { Model = model, StatusCode = 200, Message = string.Empty };
+                    return new ResultClass<UsuariosModel> { Model = new UsuariosModel(model), StatusCode = 200, Message = string.Empty };
                 }
             }
             catch (DbUpdateException ex) {
-                return new ResultClass { Model = new UsuariosModel(), StatusCode = 500, Message = ex.Message };
+                return new ResultClass<UsuariosModel> { Model = new UsuariosModel(), StatusCode = 500, Message = ex.Message };
             }
             catch (Exception ex) {
-                return new ResultClass { Model = new UsuariosModel(), StatusCode = 400, Message = ex.Message };
+                return new ResultClass<UsuariosModel> { Model = new UsuariosModel(), StatusCode = 400, Message = ex.Message };
             }
         }
 
-        public async Task<ResultClass> Listar() {
+        public async Task<ResultClass<UsuariosModel>> Listar() {
             try {
                 using (var ContextoBD = new P1700Context()) {
                     List<UsuariosModel> Lista = ContextoBD.Usuarios
@@ -67,14 +67,39 @@ namespace Prueba.DataAccess
                                                 Correo = s.Correo,
                                                 Nombre = s.Nombre,
                                             }).ToList();
-                    return new ResultClass { Model = Lista, StatusCode = 200, Message = string.Empty };
+                    return new ResultClass<UsuariosModel> { ListModel = Lista, StatusCode = 200, Message = string.Empty };
                 }
             }
             catch (DbUpdateException ex) {
-                return new ResultClass { Model = new UsuariosModel(), StatusCode = 500, Message = ex.Message };
+                return new ResultClass<UsuariosModel> { Model = new UsuariosModel(), StatusCode = 500, Message = ex.Message };
             }
             catch (Exception ex) {
-                return new ResultClass { Model = new UsuariosModel(), StatusCode = 400, Message = ex.Message };
+                return new ResultClass<UsuariosModel> { Model = new UsuariosModel(), StatusCode = 400, Message = ex.Message };
+            }
+        }
+
+        public async Task<ResultClass<UsuariosModel>> Validar(LoginModel login) {
+            try {
+                using (var ContextoBD = new P1700Context()) {
+                    var model = ContextoBD.Usuarios.Where(s => s.Correo == login.Correo).FirstOrDefault();
+                    if (model != null) {
+                        if (model.Contrasena == login.Contrasena) {
+                            return new ResultClass<UsuariosModel> { Model = new UsuariosModel(model), StatusCode = 200, Message = string.Empty };
+                        }
+                        else {
+                            return new ResultClass<UsuariosModel> { Model = new UsuariosModel(), StatusCode = 401, Message = "Credenciales incorrectas" };
+                        }
+                    }
+                    else {
+                        return new ResultClass<UsuariosModel> { Model = new UsuariosModel(), StatusCode = 404, Message = "Usuario no existe" };
+                    }
+                }
+            }
+            catch (DbUpdateException ex) {
+                return new ResultClass<UsuariosModel> { Model = new UsuariosModel(), StatusCode = 500, Message = ex.Message };
+            }
+            catch (Exception ex) {
+                return new ResultClass<UsuariosModel> { Model = new UsuariosModel(), StatusCode = 400, Message = ex.Message };
             }
         }
     }

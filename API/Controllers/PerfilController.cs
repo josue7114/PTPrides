@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Prueba.Interface;
 using Prueba.Models;
 
 namespace API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PerfilController : ControllerBase
@@ -14,9 +16,10 @@ namespace API.Controllers
             _IPerfil = IPerfil;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("Listar")]
-        public async Task<ResultClass> Listar() {
+        public async Task<ResultClass<PerfilModel>> Listar() {
             var Lista = await _IPerfil.Listar();
             return Lista;
         }

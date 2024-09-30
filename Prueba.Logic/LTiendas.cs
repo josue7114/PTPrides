@@ -12,7 +12,7 @@ namespace Prueba.Logic
             _DATiendas = new DATiendas();
         }
 
-        public async Task<ResultClass> Actualizar(TiendasModel model) {
+        public async Task<ResultClass<TiendasModel>> Actualizar(TiendasModel model) {
             try {
                 var Modelo = await _DATiendas.Actualizar(model);
                 return Modelo;
@@ -22,7 +22,7 @@ namespace Prueba.Logic
             }
         }
 
-        public async Task<ResultClass> Agregar(TiendasModel model) {
+        public async Task<ResultClass<TiendasModel>> Agregar(TiendasModel model) {
             try {
                 var Modelo = await _DATiendas.Agregar(model);
                 return Modelo;
@@ -32,7 +32,7 @@ namespace Prueba.Logic
             }
         }
 
-        public async Task<ResultClass> Eliminar(int id) {
+        public async Task<ResultClass<TiendasModel>> Eliminar(int id) {
             try {
                 var Modelo = await _DATiendas.Eliminar(id);
                 return Modelo;
@@ -42,7 +42,7 @@ namespace Prueba.Logic
             }
         }
 
-        public async Task<ResultClass> Listar() {
+        public async Task<ResultClass<TiendasModel>> Listar() {
             try {
                 var Modelo = await _DATiendas.Listar();
                 return Modelo;

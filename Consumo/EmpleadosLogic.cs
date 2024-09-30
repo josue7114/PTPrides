@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Prueba.Models;
+using Prueba.Models.Models;
 
 namespace Consumo
 {
@@ -13,31 +14,38 @@ namespace Consumo
             ServicesRequest = new WebServiceDataAccess();
         }
 
-        public async Task<ResultClass> Agregar(EmpleadosModel model, string? accessToken) {
+        public async Task<ResultClass<EmpleadosModel>> Agregar(EmpleadosModel model, string? accessToken) {
             var objetoJson = await ServicesRequest.DataRequestPOST(
                 Configuration.GetRouteAttribute(AppSettings.Empleados_Agregar), model, accessToken);
-            var objeto = JsonConvert.DeserializeObject<ResultClass>(objetoJson);
+            var objeto = JsonConvert.DeserializeObject<ResultClass<EmpleadosModel>>(objetoJson);
             return objeto;
         }
 
-        public async Task<ResultClass> Modificar(EmpleadosModel model, string? accessToken) {
+        public async Task<ResultClass<EmpleadosModel>> Modificar(EmpleadosModel model, string? accessToken) {
             var objetoJson = await ServicesRequest.DataRequestPOST(
                 Configuration.GetRouteAttribute(AppSettings.Empleados_Modificar), model, accessToken);
-            var objeto = JsonConvert.DeserializeObject<ResultClass>(objetoJson);
+            var objeto = JsonConvert.DeserializeObject<ResultClass<EmpleadosModel>>(objetoJson);
             return objeto;
         }
 
-        public async Task<ResultClass> Eliminar(string Id, string? accessToken) {
+        public async Task<ResultClass<EmpleadosModel>> Eliminar(int Id, string? accessToken) {
             var objetoJson = await ServicesRequest.DataRequestGET(
-                Configuration.GetRouteAttribute(AppSettings.Empleados_Eliminar, Id), accessToken);
-            var objeto = JsonConvert.DeserializeObject<ResultClass>(objetoJson);
+                Configuration.GetRouteAttribute(AppSettings.Empleados_Eliminar, Id.ToString()), accessToken);
+            var objeto = JsonConvert.DeserializeObject<ResultClass<EmpleadosModel>>(objetoJson);
             return objeto;
         }
 
-        public async Task<ResultClass> Listar(string? accessToken) {
+        public async Task<ResultClass<EmpleadosModel>> Listar(string? accessToken) {
             var objetoJson = await ServicesRequest.DataRequestGET(
                 Configuration.GetRouteAttribute(AppSettings.Empleados_Listar), accessToken);
-            var objeto = JsonConvert.DeserializeObject<ResultClass>(objetoJson);
+            var objeto = JsonConvert.DeserializeObject<ResultClass<EmpleadosModel>>(objetoJson);
+            return objeto;
+        }
+
+        public async Task<ResultClass<ObtenerEmpleadosResult>> Buscar(string Cedula, string? accessToken) {
+            var objetoJson = await ServicesRequest.DataRequestGET(
+                Configuration.GetRouteAttribute(AppSettings.Empleados_Buscar, Cedula), accessToken);
+            var objeto = JsonConvert.DeserializeObject<ResultClass<ObtenerEmpleadosResult>>(objetoJson);
             return objeto;
         }
     }

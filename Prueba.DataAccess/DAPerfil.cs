@@ -6,7 +6,7 @@ namespace Prueba.DataAccess
 {
     public class DAPerfil
     {
-        public async Task<ResultClass> Listar() {
+        public async Task<ResultClass<PerfilModel>> Listar() {
             try {
                 using (var ContextoBD = new P1700Context()) {
                     List<PerfilModel> Lista = ContextoBD.Perfil
@@ -14,14 +14,14 @@ namespace Prueba.DataAccess
                                                 NombrePerfil = s.NombrePerfil,
                                                 PerfilID = s.PerfilID
                                             }).ToList();
-                    return new ResultClass { Model = Lista, StatusCode = 200, Message = string.Empty };
+                    return new ResultClass<PerfilModel> { ListModel = Lista, StatusCode = 200, Message = string.Empty };
                 }
             }
             catch (DbUpdateException ex) {
-                return new ResultClass { Model = new PerfilModel(), StatusCode = 500, Message = ex.Message };
+                return new ResultClass<PerfilModel> { Model = new PerfilModel(), StatusCode = 500, Message = ex.Message };
             }
             catch (Exception ex) {
-                return new ResultClass { Model = new PerfilModel(), StatusCode = 400, Message = ex.Message };
+                return new ResultClass<PerfilModel> { Model = new PerfilModel(), StatusCode = 400, Message = ex.Message };
             }
         }
     }

@@ -12,7 +12,7 @@ namespace Prueba.Logic
             _DAUsuarios = new DAUsuarios();
         }
 
-        public async Task<ResultClass> Actualizar(UsuariosModel model) {
+        public async Task<ResultClass<UsuariosModel>> Actualizar(UsuariosModel model) {
             try {
                 var Modelo = await _DAUsuarios.Actualizar(model);
                 return Modelo;
@@ -22,7 +22,7 @@ namespace Prueba.Logic
             }
         }
 
-        public async Task<ResultClass> Agregar(UsuariosModel model) {
+        public async Task<ResultClass<UsuariosModel>> Agregar(UsuariosModel model) {
             try {
                 var Modelo = await _DAUsuarios.Agregar(model);
                 return Modelo;
@@ -32,7 +32,7 @@ namespace Prueba.Logic
             }
         }
 
-        public async Task<ResultClass> Eliminar(int id) {
+        public async Task<ResultClass<UsuariosModel>> Eliminar(int id) {
             try {
                 var Modelo = await _DAUsuarios.Eliminar(id);
                 return Modelo;
@@ -42,9 +42,19 @@ namespace Prueba.Logic
             }
         }
 
-        public async Task<ResultClass> Listar() {
+        public async Task<ResultClass<UsuariosModel>> Listar() {
             try {
                 var Modelo = await _DAUsuarios.Listar();
+                return Modelo;
+            }
+            catch (Exception) {
+                throw;
+            }
+        }
+
+        public async Task<ResultClass<UsuariosModel>> Validar(LoginModel Model) {
+            try {
+                var Modelo = await _DAUsuarios.Validar(Model);
                 return Modelo;
             }
             catch (Exception) {

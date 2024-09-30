@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Prueba.Models.PermisosModel>
+
+<div class="container my-5">
+    <div class="card p-4 shadow-sm">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="mb-0">Listado de Permisos</h2>
+            <button class="btn btn-primary" onclick="mostrarModal()" hidden>Nuevo</button>
+        </div>
+        <table class="table table-striped mt-4">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre Permiso</th>
+                    <th scope="col">Perfil</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var Item in Model) {
+                    <tr>
+                        <td>@Item.NombrePermiso</td>
+                        <td>@Item.PerfilID</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
