@@ -22,6 +22,7 @@ namespace Prueba.Models
         public string Contrasena { get; set; }
         public int? PerfilID { get; set; }
         public int? TiendaID { get; set; }
+        public string? Token { get; set; }
 
         public Usuarios ConvertToUsuariosBD() {
             return new Usuarios {

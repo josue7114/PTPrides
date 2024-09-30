@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Prueba.Interface;
 using Prueba.Models;
@@ -6,6 +7,7 @@ using Prueba.Models.Models;
 
 namespace API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class EmpleadoController : ControllerBase
@@ -16,6 +18,7 @@ namespace API.Controllers
             _IEmpleados = IEmpleados;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("Agregar")]
         public async Task<ResultClass<EmpleadosModel>> Agregar(EmpleadosModel modelo) {

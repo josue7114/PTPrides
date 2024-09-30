@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Prueba.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +27,16 @@ AppSettings.Usuarios_Listar = builder.Configuration.GetSection("AppSettings:Usua
 AppSettings.Usuarios_Validar = builder.Configuration.GetSection("AppSettings:Usuarios_Validar").Value;
 AppSettings.Perfiles_Listar = builder.Configuration.GetSection("AppSettings:Perfiles_Listar").Value;
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(option =>
+    {
+        option.LoginPath = "/Inicio/Index";
+        option.AccessDeniedPath = new PathString("/Error");
+        option.LoginPath = new PathString("/Inicio/Index");
+        option.LogoutPath = new PathString("/Inicio/CerrarSesion");
+        option.Validate();
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -40,6 +51,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

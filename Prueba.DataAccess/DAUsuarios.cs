@@ -82,11 +82,16 @@ namespace Prueba.DataAccess
             try {
                 using (var ContextoBD = new P1700Context()) {
                     var model = ContextoBD.Usuarios.Where(s => s.Correo == login.Correo).FirstOrDefault();
-                    if (model.Contrasena == login.Contrasena) {
-                        return new ResultClass<UsuariosModel> { Model = new UsuariosModel(model), StatusCode = 200, Message = string.Empty };
+                    if (model != null) {
+                        if (model.Contrasena == login.Contrasena) {
+                            return new ResultClass<UsuariosModel> { Model = new UsuariosModel(model), StatusCode = 200, Message = string.Empty };
+                        }
+                        else {
+                            return new ResultClass<UsuariosModel> { Model = new UsuariosModel(), StatusCode = 401, Message = "Credenciales incorrectas" };
+                        }
                     }
                     else {
-                        return new ResultClass<UsuariosModel> { Model = new UsuariosModel(), StatusCode = 401, Message = "Credenciales incorrectas" };
+                        return new ResultClass<UsuariosModel> { Model = new UsuariosModel(), StatusCode = 404, Message = "Usuario no existe" };
                     }
                 }
             }

@@ -1,6 +1,7 @@
 ﻿using Consumo;
 using Microsoft.AspNetCore.Mvc;
 using Prueba.Models;
+using WEB.Utils;
 
 namespace WEB.Controllers
 {
@@ -17,75 +18,99 @@ namespace WEB.Controllers
         }
 
         public async Task<ActionResult> Index() {
-            var Empleados = await LEmpleados.Listar("token");
-            if (Empleados.StatusCode == 200) {
-                return View(Empleados.ListModel);
+            var Sesion = Utilidades.ValidarSession(HttpContext);
+            if (Sesion.esValida) {
+                var Empleados = await LEmpleados.Listar(Sesion.accessToken);
+                if (Empleados.StatusCode == 200) {
+                    return View(Empleados.ListModel);
+                }
+                return View(new List<EmpleadosModel>());
             }
-            return View(new List<EmpleadosModel>());
+            return RedirectToAction("Index", "Inicio");
         }
 
         public async Task<ActionResult> ObtenerContenidoModal(int Parametro) {
-            var Perfiles = await LPerfil.Listar("token");
-            var Supervisores = await LEmpleados.Listar("token");
-            if (Perfiles.StatusCode == 200) {
-                ViewBag.Perfil = Perfiles.ListModel;
-            }
-            if (Supervisores.StatusCode == 200) {
-                ViewBag.Supervisores = Supervisores.ListModel.Where(m => m.SupervisorID == 0);
-            }
-            var Modelo = new EmpleadosModel();
-            if (Parametro != 0) {
-                var Empleados = await LEmpleados.Listar("token");
-                if (Empleados.StatusCode == 200) {
-                    Modelo = Empleados.ListModel.Where(m => m.EmpleadoID == Parametro).FirstOrDefault();
-                    return PartialView("_modal", Modelo);
+            var Sesion = Utilidades.ValidarSession(HttpContext);
+            if (Sesion.esValida) {
+                var Perfiles = await LPerfil.Listar(Sesion.accessToken);
+                var Supervisores = await LEmpleados.Listar(Sesion.accessToken);
+                if (Perfiles.StatusCode == 200) {
+                    ViewBag.Perfil = Perfiles.ListModel;
                 }
+                if (Supervisores.StatusCode == 200) {
+                    ViewBag.Supervisores = Supervisores.ListModel.Where(m => m.SupervisorID == 0);
+                }
+                var Modelo = new EmpleadosModel();
+                if (Parametro != 0) {
+                    var Empleados = await LEmpleados.Listar(Sesion.accessToken);
+                    if (Empleados.StatusCode == 200) {
+                        Modelo = Empleados.ListModel.Where(m => m.EmpleadoID == Parametro).FirstOrDefault();
+                        return PartialView("_modal", Modelo);
+                    }
+                }
+                return PartialView("_modal", Modelo);
             }
-            return PartialView("_modal", Modelo);
+            return RedirectToAction("Index", "Inicio");
         }
 
         public async Task<ActionResult> Guardar(EmpleadosModel Modelo) {
-            var Result = new ResultClass<EmpleadosModel>();
-            if (Modelo.SupervisorID == 0) {
-                Modelo.SupervisorID = null;
+            var Sesion = Utilidades.ValidarSession(HttpContext);
+            if (Sesion.esValida) {
+                var Result = new ResultClass<EmpleadosModel>();
+                if (Modelo.SupervisorID == 0) {
+                    Modelo.SupervisorID = null;
+                }
+                if (Modelo.EmpleadoID != 0) {
+                    Result = await LEmpleados.Modificar(Modelo, Sesion.accessToken);
+                }
+                else {
+                    Modelo.Fecha = DateTime.Today;
+                    Result = await LEmpleados.Agregar(Modelo, Sesion.accessToken);
+                }
+                if (Result.StatusCode == 200) {
+                    return Json(new { success = true, message = "Registro guardado correctamente" });
+                }
+                else {
+                    return Json(new { success = false, message = Result.Message });
+                }
             }
-            if (Modelo.EmpleadoID != 0) {
-                Result = await LEmpleados.Modificar(Modelo, "token");
-            }
-            else {
-                Modelo.Fecha = DateTime.Today;
-                Result = await LEmpleados.Agregar(Modelo, "token");
-            }
-            if (Result.StatusCode == 200) {
-                return Json(new { success = true, message = "Registro guardado correctamente" });
-            }
-            else {
-                return Json(new { success = false, message = Result.Message });
-            }
+            return RedirectToAction("Index", "Inicio");
         }
 
         public async Task<ActionResult> Eliminar(int id) {
-            var Result = await LEmpleados.Eliminar(id, "token");
-            if (Result.StatusCode == 200) {
-                return Json(new { success = true, message = "Registro eliminado correctamente" });
+            var Sesion = Utilidades.ValidarSession(HttpContext);
+            if (Sesion.esValida) {
+                var Result = await LEmpleados.Eliminar(id, Sesion.accessToken);
+                if (Result.StatusCode == 200) {
+                    return Json(new { success = true, message = "Registro eliminado correctamente" });
+                }
+                else {
+                    return Json(new { success = false, message = Result.Message });
+                }
             }
-            else {
-                return Json(new { success = false, message = Result.Message });
-            }
+            return RedirectToAction("Index", "Inicio");
         }
 
         public async Task<ActionResult> Buscar(string Cedula) {
-            var Result = await LEmpleados.Buscar(Cedula, "token");
-            if (Result.StatusCode == 200) {
-                return Json(new { success = true, data = Result.ListModel.FirstOrDefault(), message = string.Empty });
+            var Sesion = Utilidades.ValidarSession(HttpContext);
+            if (Sesion.esValida) {
+                var Result = await LEmpleados.Buscar(Cedula, Sesion.accessToken);
+                if (Result.StatusCode == 200) {
+                    return Json(new { success = true, data = Result.ListModel.FirstOrDefault(), message = string.Empty });
+                }
+                else {
+                    return Json(new { success = false, message = Result.Message });
+                }
             }
-            else {
-                return Json(new { success = false, message = Result.Message });
-            }
+            return RedirectToAction("Index", "Inicio");
         }
 
         public ActionResult Consulta() {
-            return View();
+            var Sesion = Utilidades.ValidarSession(HttpContext);
+            if (Sesion.esValida) {
+                return View();
+            }
+            return RedirectToAction("Index", "Inicio");
         }
     }
 }

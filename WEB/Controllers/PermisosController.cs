@@ -1,6 +1,7 @@
 ﻿using Consumo;
 using Microsoft.AspNetCore.Mvc;
 using Prueba.Models;
+using WEB.Utils;
 
 namespace WEB.Controllers
 {
@@ -13,11 +14,15 @@ namespace WEB.Controllers
         }
 
         public async Task<ActionResult> Index() {
-            var Permisos = await LPermisos.Listar("token");
-            if (Permisos.StatusCode == 200) {
-                return View(Permisos.ListModel);
+            var Sesion = Utilidades.ValidarSession(HttpContext);
+            if (Sesion.esValida) {
+                var Permisos = await LPermisos.Listar(Sesion.accessToken);
+                if (Permisos.StatusCode == 200) {
+                    return View(Permisos.ListModel);
+                }
+                return View(new List<PermisosModel>());
             }
-            return View(new List<PermisosModel>());
+            return RedirectToAction("Index", "Inicio");
         }
     }
 }

@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Prueba.Interface;
 using Prueba.Models;
 
 namespace API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TiendaController : ControllerBase
@@ -35,6 +37,7 @@ namespace API.Controllers
             return Result;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("Listar")]
         public async Task<ResultClass<TiendasModel>> Listar() {
