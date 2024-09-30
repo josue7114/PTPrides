@@ -51,5 +51,15 @@ namespace Prueba.Logic
                 throw;
             }
         }
+
+        public async Task<ResultClass<UsuariosModel>> Validar(LoginModel Model) {
+            try {
+                var Modelo = await _DAUsuarios.Validar(Model);
+                return Modelo;
+            }
+            catch (Exception) {
+                throw;
+            }
+        }
     }
 }

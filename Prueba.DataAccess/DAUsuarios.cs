@@ -77,5 +77,25 @@ namespace Prueba.DataAccess
                 return new ResultClass<UsuariosModel> { Model = new UsuariosModel(), StatusCode = 400, Message = ex.Message };
             }
         }
+
+        public async Task<ResultClass<UsuariosModel>> Validar(LoginModel login) {
+            try {
+                using (var ContextoBD = new P1700Context()) {
+                    var model = ContextoBD.Usuarios.Where(s => s.Correo == login.Correo).FirstOrDefault();
+                    if (model.Contrasena == login.Contrasena) {
+                        return new ResultClass<UsuariosModel> { Model = new UsuariosModel(model), StatusCode = 200, Message = string.Empty };
+                    }
+                    else {
+                        return new ResultClass<UsuariosModel> { Model = new UsuariosModel(), StatusCode = 401, Message = "Credenciales incorrectas" };
+                    }
+                }
+            }
+            catch (DbUpdateException ex) {
+                return new ResultClass<UsuariosModel> { Model = new UsuariosModel(), StatusCode = 500, Message = ex.Message };
+            }
+            catch (Exception ex) {
+                return new ResultClass<UsuariosModel> { Model = new UsuariosModel(), StatusCode = 400, Message = ex.Message };
+            }
+        }
     }
 }

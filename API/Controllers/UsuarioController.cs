@@ -42,5 +42,12 @@ namespace API.Controllers
             var Lista = await _IUsuarios.Listar();
             return Lista;
         }
+
+        [HttpPost]
+        [Route("Validar")]
+        public async Task<ResultClass<UsuariosModel>> Validar(LoginModel modelo) {
+            var Result = await _IUsuarios.Validar(modelo);
+            return Result;
+        }
     }
 }

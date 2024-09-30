@@ -19,6 +19,7 @@
         public static string Usuarios_Modificar { get; set; }
         public static string Usuarios_Eliminar { get; set; }
         public static string Usuarios_Listar { get; set; }
+        public static string Usuarios_Validar { get; set; }
         public static string Perfiles_Listar { get; set; }
     }
 }

@@ -23,6 +23,7 @@ AppSettings.Usuarios_Agregar = builder.Configuration.GetSection("AppSettings:Usu
 AppSettings.Usuarios_Modificar = builder.Configuration.GetSection("AppSettings:Usuarios_Modificar").Value;
 AppSettings.Usuarios_Eliminar = builder.Configuration.GetSection("AppSettings:Usuarios_Eliminar").Value;
 AppSettings.Usuarios_Listar = builder.Configuration.GetSection("AppSettings:Usuarios_Listar").Value;
+AppSettings.Usuarios_Validar = builder.Configuration.GetSection("AppSettings:Usuarios_Validar").Value;
 AppSettings.Perfiles_Listar = builder.Configuration.GetSection("AppSettings:Perfiles_Listar").Value;
 
 var app = builder.Build();

@@ -40,5 +40,12 @@ namespace Consumo
             var objeto = JsonConvert.DeserializeObject<ResultClass<UsuariosModel>>(objetoJson);
             return objeto;
         }
+
+        public async Task<ResultClass<UsuariosModel>> Validar(LoginModel model, string? accessToken) {
+            var objetoJson = await ServicesRequest.DataRequestPOST(
+                Configuration.GetRouteAttribute(AppSettings.Usuarios_Validar), model, accessToken);
+            var objeto = JsonConvert.DeserializeObject<ResultClass<UsuariosModel>>(objetoJson);
+            return objeto;
+        }
     }
 }

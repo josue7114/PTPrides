@@ -11,5 +11,7 @@ namespace Prueba.Interface
         Task<ResultClass<UsuariosModel>> Eliminar(int id);
 
         Task<ResultClass<UsuariosModel>> Listar();
+
+        Task<ResultClass<UsuariosModel>> Validar(LoginModel Model);
     }
 }

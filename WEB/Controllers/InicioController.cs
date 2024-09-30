@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Prueba.Models;
 using Prueba.Models.Models;
+using WEB.Utils;
 
 namespace WEB.Controllers
 {
@@ -11,14 +12,48 @@ namespace WEB.Controllers
     {
         private TiendasLogic LTiendas;
         private PerfilLogic LPerfil;
+        private UsuariosLogic LUsuarios;
+        private EmpleadosLogic LEmpleados;
 
         public InicioController() {
             LTiendas = new TiendasLogic();
             LPerfil = new PerfilLogic();
+            LUsuarios = new UsuariosLogic();
+            LEmpleados = new EmpleadosLogic();
         }
 
-        public async Task<ActionResult> Index() {
+        public ActionResult Index() {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Ingresar(LoginModel Modelo) {
+            Modelo.Contrasena = Utilidades.GetSHA256(Modelo.Contrasena);
+            var Result = await LUsuarios.Validar(Modelo, "token");
+            if (Result.StatusCode == 200) {
+                return Json(new { success = true });
+            }
+            else {
+                return Json(new { success = false, message = Result.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RegistrarUsuario(UsuariosModel Modelo) {
+            Modelo.Contrasena = Utilidades.GetSHA256(Modelo.Contrasena);
+            var Result = await LUsuarios.Agregar(Modelo, "token");
+            if (Result.StatusCode == 200) {
+                var Result2 = await LEmpleados.Agregar(new EmpleadosModel { Fecha = DateTime.Today, Nombre = Modelo.Nombre, PerfilID = Modelo.PerfilID, Salario = 0 }, "token");
+                if (Result2.StatusCode == 200) {
+                    return Json(new { success = true });
+                }
+                else {
+                    return Json(new { success = false, message = Result2.Message });
+                }
+            }
+            else {
+                return Json(new { success = false, message = Result.Message });
+            }
         }
 
         public async Task<ActionResult> ObtenerContenidoModal(int Parametro) {
