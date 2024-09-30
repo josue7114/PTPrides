@@ -38,7 +38,7 @@ namespace WEB.Controllers
                     ViewBag.Perfil = Perfiles.ListModel;
                 }
                 if (Supervisores.StatusCode == 200) {
-                    ViewBag.Supervisores = Supervisores.ListModel.Where(m => m.SupervisorID == 0);
+                    ViewBag.Supervisores = Supervisores.ListModel.Where(m => m.SupervisorID == null);
                 }
                 var Modelo = new EmpleadosModel();
                 if (Parametro != 0) {
@@ -96,7 +96,12 @@ namespace WEB.Controllers
             if (Sesion.esValida) {
                 var Result = await LEmpleados.Buscar(Cedula, Sesion.accessToken);
                 if (Result.StatusCode == 200) {
-                    return Json(new { success = true, data = Result.ListModel.FirstOrDefault(), message = string.Empty });
+                    if (Result.ListModel.Count != 0) {
+                        return Json(new { success = true, data = Result.ListModel.FirstOrDefault(), message = string.Empty });
+                    }
+                    else {
+                        return Json(new { success = false, message = "Usuario no registrado como empleado" });
+                    }
                 }
                 else {
                     return Json(new { success = false, message = Result.Message });
