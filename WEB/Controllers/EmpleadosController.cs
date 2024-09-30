@@ -32,7 +32,7 @@ namespace WEB.Controllers
         public async Task<ActionResult> ObtenerContenidoModal(int Parametro) {
             var Sesion = Utilidades.ValidarSession(HttpContext);
             if (Sesion.esValida) {
-                var Perfiles = await LPerfil.Listar(Sesion.accessToken);
+                var Perfiles = await LPerfil.Listar();
                 var Supervisores = await LEmpleados.Listar(Sesion.accessToken);
                 if (Perfiles.StatusCode == 200) {
                     ViewBag.Perfil = Perfiles.ListModel;
@@ -65,7 +65,7 @@ namespace WEB.Controllers
                 }
                 else {
                     Modelo.Fecha = DateTime.Today;
-                    Result = await LEmpleados.Agregar(Modelo, Sesion.accessToken);
+                    Result = await LEmpleados.Agregar(Modelo);
                 }
                 if (Result.StatusCode == 200) {
                     return Json(new { success = true, message = "Registro guardado correctamente" });

@@ -34,9 +34,9 @@ namespace Consumo
             return objeto;
         }
 
-        public async Task<ResultClass<TiendasModel>> Listar(string? accessToken) {
+        public async Task<ResultClass<TiendasModel>> Listar() {
             var objetoJson = await ServicesRequest.DataRequestGET(
-                Configuration.GetRouteAttribute(AppSettings.Tiendas_Listar), accessToken);
+                Configuration.GetRouteAttribute(AppSettings.Tiendas_Listar));
             var objeto = JsonConvert.DeserializeObject<ResultClass<TiendasModel>>(objetoJson);
             return objeto;
         }

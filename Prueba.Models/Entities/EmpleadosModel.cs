@@ -28,6 +28,7 @@ namespace Prueba.Models
         public DateTime? Fecha { get; set; }
         public string? TipoEmpleado { get; set; }
         public double? Salario { get; set; }
+        public string Cedula { get; set; }
 
         public Empleados ConvertToEmpleadosBD() {
             return new Empleados {
